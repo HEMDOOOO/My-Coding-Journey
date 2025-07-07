@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+using namespace std;
+struct employee
+{
+    int number;
+    float salary, bonus;
+    string name, job;
+};
+void get_data(employee emps[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        cout << "Enter employee number, employee name, employee job: ";
+        cin >> emps[i].number >> emps[i].name >> emps[i].job;
+        if (emps[i].job == "Manager")
+        {
+            emps[i].salary = 5000;
+        }
+        else if (emps[i].job == "Engineer")
+        {
+            emps[i].salary = 3000;
+        }
+        else if (emps[i].job == "Clerk")
+        {
+            emps[i].salary = 2000;
+        }
+        else
+        {
+            emps[i].salary = 1000;
+        }
+    }
+}
+void set_bonus(employee& e, float percent)
+{
+    e.bonus = e.salary * percent;
+}
+void print(employee emps[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        cout << "Employee Name is: " << emps[i].name << endl;
+        cout << "Employee Number is: " << emps[i].number << endl;
+        cout << "Employee Job is: " << emps[i].job << endl;
+        cout << "Employee Salary is: " << emps[i].salary << endl;
+        cout << "Employee Bonus is: " << emps[i].bonus << endl;
+        cout << "Employee Total Salary is: " << emps[i].salary + emps[i].bonus << endl;
+        cout << "-----------------------------------------------------------------------" << endl;
+    }
+}
+int main()
+{
+    employee emps[5];
+    get_data(emps, 5);
+    for (int i = 0; i < 5; i++)
+    {
+        set_bonus(emps[i], 0.10f);
+    }
+    print(emps, 5);
+}
