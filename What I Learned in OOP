@@ -1,84 +1,70 @@
 #include <iostream>
 #include <string>
 using namespace std;
-class employee
-{
-  protected:
-	string name;
-	int id;
-	float salary;
-  public:
-	employee() : name("Unknown"), id(0), salary(0.0) {}
-	employee(string Name, int Id, float Salary) : name(Name), id(Id), salary(Salary) {}
-	virtual float get_salary() = 0;
-	virtual void print()
-	{
-		cout << "==============================" << endl;
-		cout << "👤 Name       : " << name << endl;
-		cout << "🆔 ID         : " << id << endl;
-		cout << "💵 Base Salary: " << salary << " EGP" << endl;
-	}
+class employee {
+protected:
+    string name;
+    int id;
+    float salary;
+public:
+    employee() : name("Unknown"), id(0), salary(0.0) {}
+    employee(string Name, int Id, float Salary) : name(Name), id(Id), salary(Salary) {}
+    virtual float get_salary() = 0;
+    virtual void print() {
+        cout << "==============================" << endl;
+        cout << "Name        : " << name << endl;
+        cout << "ID          : " << id << endl;
+        cout << "Base Salary : " << salary << " EGP" << endl;
+    }
 };
-class sales : public employee
-{
-  private:
-	float gross_sale, commission_rate;
-  public:
-	sales(string Name, int Id, float Salary, float Gross_sale, float Commision_rate) : employee(Name, Id, Salary)
-	{
-		gross_sale = Gross_sale;
-		commission_rate = Commision_rate;
-	}
-	float get_salary()
-	{
-		return salary + (gross_sale * commission_rate);
-	}
-	void print()
-	{
-		employee::print();
-		cout << "📈 Gross Sales     : " << gross_sale << " EGP" << endl;
-		cout << "📊 Commission Rate : " << commission_rate * 100 << "%" << endl;
-		cout << "💰 Total Salary    : " << get_salary() << " EGP" << endl;
-		cout << "==============================" << endl << endl;
-	}
+class sales : public employee {
+private:
+    float gross_sale, commission_rate;
+public:
+    sales(string Name, int Id, float Salary, float Gross_sale, float Commision_rate)
+        : employee(Name, Id, Salary), gross_sale(Gross_sale), commission_rate(Commision_rate) {}
+
+    float get_salary() {
+        return salary + (gross_sale * commission_rate);
+    }
+    void print() {
+        employee::print();
+        cout << "Gross Sales      : " << gross_sale << " EGP" << endl;
+        cout << "Commission Rate  : " << commission_rate * 100 << "%" << endl;
+        cout << "Total Salary     : " << get_salary() << " EGP" << endl;
+        cout << "==============================" << endl << endl;
+    }
 };
-class engineer : public employee
-{
-  private:
-	string speciality;
-	int experience, overtime_hours;
-	float overtime_hours_rate;
-  public:
-	engineer(string Name, int Id, float Salary, string Speciality, int Experience, int Overtime_hours, float Overtime_hours_rate) : employee(Name, Id, Salary)
-	{
-		speciality = Speciality;
-		experience = Experience;
-		overtime_hours = Overtime_hours;
-		overtime_hours_rate = Overtime_hours_rate;
-	}
-	float get_salary()
-	{
-		return salary + (overtime_hours_rate * overtime_hours);
-	}
-	void print()
-	{
-		employee::print();
-		cout << "🛠️ Speciality       : " << speciality << endl;
-		cout << "📅 Experience       : " << experience << " years" << endl;
-		cout << "⏱️ Overtime Hours   : " << overtime_hours << endl;
-		cout << "💸 Overtime Rate    : " << overtime_hours_rate << " EGP/hour" << endl;
-		cout << "💰 Total Salary     : " << get_salary() << " EGP" << endl;
-		cout << "==============================" << endl << endl;
-	}
+class engineer : public employee {
+private:
+    string speciality;
+    int experience, overtime_hours;
+    float overtime_hours_rate;
+public:
+    engineer(string Name, int Id, float Salary, string Speciality, int Experience, int Overtime_hours, float Overtime_hours_rate)
+        : employee(Name, Id, Salary), speciality(Speciality), experience(Experience),
+          overtime_hours(Overtime_hours), overtime_hours_rate(Overtime_hours_rate) {}
+
+    float get_salary() {
+        return salary + (overtime_hours_rate * overtime_hours);
+    }
+    void print() {
+        employee::print();
+        cout << "Speciality        : " << speciality << endl;
+        cout << "Experience        : " << experience << " years" << endl;
+        cout << "Overtime Hours    : " << overtime_hours << endl;
+        cout << "Overtime Rate     : " << overtime_hours_rate << " EGP/hour" << endl;
+        cout << "Total Salary      : " << get_salary() << " EGP" << endl;
+        cout << "==============================" << endl << endl;
+    }
 };
-int main()
-{
-	sales s1("Ahmed", 120, 5000, 50000, 0.10);
-	engineer e1("Hassan", 150, 7000, "Software Engineer", 5, 10, 50);
-	employee *p = &s1;
-	p->get_salary();
-	p->print();
-	p = &e1;
-	p->get_salary();
-	p->print();
+int main() {
+    sales s1("Ahmed", 120, 5000, 50000, 0.10);
+    engineer e1("Hassan", 150, 7000, "Software Engineer", 5, 10, 50);
+    employee *p = &s1;
+    p->get_salary();
+    p->print();
+    p = &e1;
+    p->get_salary();
+    p->print();
 }
