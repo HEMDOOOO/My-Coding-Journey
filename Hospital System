@@ -1,0 +1,138 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<deque<string>> names(20);
+vector<deque<int>> statuss(20);
+int menu()
+{
+    while (true)
+    {
+        int choice;
+        cout << endl << "==============================" << endl;
+        cout << "  Welcome to the Hospital System" << endl;
+        cout << "  1) Add New Patient" << endl;
+        cout << "  2) Print All Patients" << endl;
+        cout << "  3) Get Next Patient" << endl;
+        cout << "  4) Exit" << endl;
+        cout << "==============================" << endl;
+        cout << "  Please enter your choice (1-4): ";
+        cin >> choice;
+
+        if (!(choice >= 1 && choice <= 4))
+        {
+            cout << "  Invalid choice. Please enter a number between 1 and 4." << endl;
+        }
+        else
+        {
+            return choice;
+        }
+    }
+}
+void add_new_patient()
+{
+    cout << endl << "Enter patient's name, specialization (1-20), and status (0 = Urgent, 1 = Regular):" << endl;
+    string name;
+    int specialization, status;
+    cin >> name >> specialization >> status;
+    specialization--;
+    if (specialization < 0 || specialization >= 20)
+    {
+        cout << "Invalid specialization number. Must be between 1 and 20." << endl;
+        return;
+    }
+    if (names[specialization].size() < 5)
+    {
+        if (status == 0)
+        {
+            names[specialization].push_front(name);
+            statuss[specialization].push_front(status);
+        }
+        else
+        {
+            names[specialization].push_back(name);
+            statuss[specialization].push_back(status);
+        }
+
+        cout << "Patient \"" << name << "\" added to specialization " << specialization + 1 << "." << endl;
+    }
+    else
+    {
+        cout << "Sorry, no available slots in specialization " << specialization + 1 << "." << endl;
+    }
+}
+void print_all_patients()
+{
+    cout << endl << "List of all patients:" << endl;
+
+    bool hasPatients = false;
+
+    for (int i = 0; i < 20; i++)
+    {
+        if (!names[i].empty())
+        {
+            hasPatients = true;
+            cout << endl << "Specialization " << i + 1 << ":" << endl;
+
+            for (int j = 0; j < names[i].size(); j++)
+            {
+                string status = (statuss[i][j] == 0) ? "Urgent" : "Regular";
+                cout << "  - " << names[i][j] << " (" << status << ")" << endl;
+            }
+        }
+    }
+    if (!hasPatients)
+    {
+        cout << "There are no patients in the hospital currently." << endl;
+    }
+}
+void Get_next_patient()
+{
+    cout << endl << "Enter specialization (1-20): ";
+    int specialization;
+    cin >> specialization;
+    specialization--;
+    if (specialization < 0 || specialization >= 20)
+    {
+        cout << "Invalid specialization number. Must be between 1 and 20." << endl;
+        return;
+    }
+    if (!names[specialization].empty())
+    {
+        cout << "Patient \"" << names[specialization].front() << "\" should go with the doctor." << endl;
+        names[specialization].pop_front();
+        statuss[specialization].pop_front();
+    }
+    else
+    {
+        cout << "No patients in specialization " << specialization + 1 << ". The doctor can take a break." << endl;
+    }
+}
+void Hospital_system()
+{
+    while (true)
+    {
+        int choice = menu();
+
+        if (choice == 1)
+        {
+            add_new_patient();
+        }
+        else if (choice == 2)
+        {
+            print_all_patients();
+        }
+        else if (choice == 3)
+        {
+            Get_next_patient();
+        }
+        else
+        {
+            cout << endl << "Thank you for using the Hospital System. Goodbye!" << endl;
+            break;
+        }
+    }
+}
+signed main()
+{
+    cout << "Welcome to the Hospital Queue System" << endl;
+    Hospital_system();
+}
